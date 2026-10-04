@@ -14,6 +14,7 @@
   --accent-ink: #1a1405;
   --fav: #b57900;
   --ground: rgba(0,0,0,.14);
+  --danger: #c0262d;
   --glass: rgba(20,24,28,.78);
   --font-display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -22,16 +23,17 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #101214; --surface: #191c1f; --surface-2: #22262a; --fg: #eef0ec; --muted: #9aa29e;
-    --line: #2c3135; --accent: #f2b705; --accent-ink: #1a1405; --fav: #f2b705; --ground: rgba(0,0,0,.45);
+    --line: #2c3135; --accent: #f2b705; --accent-ink: #1a1405; --fav: #f2b705; --ground: rgba(0,0,0,.45); --danger: #ff5a5f;
     --glass: rgba(10,12,14,.82); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #101214; --surface: #191c1f; --surface-2: #22262a; --fg: #eef0ec; --muted: #9aa29e;
-  --line: #2c3135; --accent: #f2b705; --accent-ink: #1a1405; --fav: #f2b705; --ground: rgba(0,0,0,.45);
+  --line: #2c3135; --accent: #f2b705; --accent-ink: #1a1405; --fav: #f2b705; --ground: rgba(0,0,0,.45); --danger: #ff5a5f;
   --glass: rgba(10,12,14,.82); color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.4; -webkit-tap-highlight-color: transparent; }
 .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 96px; }
 
@@ -47,6 +49,7 @@ h1 small { display: block; font-family: var(--font-body); font-weight: 500; font
 .score { display: flex; gap: 14px; text-align: right; }
 .score div { display: grid; }
 .score b { font-family: var(--font-display); font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.score b small { font-size: 16px; color: var(--muted); }
 .score span { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .search { width: 100%; font: inherit; font-size: 16px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
 .search:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
@@ -117,6 +120,43 @@ details.fav .gname { color: var(--fav); }
   box-shadow: 0 6px 24px rgba(0,0,0,.25);
 }
 .toast button { all: unset; cursor: pointer; font-weight: 600; color: var(--accent); padding: 4px 6px; }
+.pics { position: absolute; left: 6px; bottom: 6px; display: flex; gap: 3px; align-items: center; padding: 2px 7px 2px 5px; border-radius: 10px; background: var(--glass); color: #fff; font-size: 12px; font-weight: 600; }
+.pics svg { width: 13px; height: 13px; }
+.tools { gap: 2px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn svg { width: 18px; height: 18px; }
+.btn.sm { padding: 6px 10px; font-size: 13px; }
+.btn.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); width: 100%; margin-top: 18px; }
+body.locked { overflow: hidden; }
+.sheet { position: fixed; inset: 0; z-index: 20; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; justify-content: center; }
+.panel { background: var(--bg); width: 100%; max-width: 640px; max-height: 92%; overflow-y: auto; border-radius: 18px 18px 0 0;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom, 0px)); }
+.shead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.shead h3 { font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.05; margin: 2px 0 0; text-wrap: balance; }
+.sbrand { display: flex; align-items: center; gap: 6px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.hero { margin-top: 12px; aspect-ratio: 16 / 10; max-width: 100%; border-radius: 12px; overflow: hidden; background: var(--surface-2); display: grid; place-items: center; }
+.hero svg { width: 90%; height: auto; } .hero img { width: 100%; height: 100%; object-fit: cover; }
+.counter { display: flex; align-items: center; justify-content: center; gap: 24px; margin: 14px 0; }
+.counter div { display: grid; text-align: center; }
+.counter b { font-family: var(--font-display); font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums; }
+.counter span { font-size: 12px; color: var(--muted); }
+.round { all: unset; cursor: pointer; width: 52px; height: 52px; border-radius: 26px; display: grid; place-items: center; background: var(--surface-2); color: var(--fg); }
+.round.plus { background: var(--accent); color: var(--accent-ink); }
+.round svg { width: 22px; height: 22px; } .round[disabled] { opacity: .3; pointer-events: none; }
+.round:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.srow { display: flex; flex-wrap: wrap; gap: 8px; } .srow .btn { flex: 1 1 150px; }
+.panel h4 { font-family: var(--font-display); font-size: 18px; text-transform: uppercase; letter-spacing: .03em; margin: 18px 0 8px; }
+.panel h4 span { color: var(--muted); font-weight: 600; }
+.photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.photos figure { margin: 0; position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+.photos img { width: 100%; height: 100%; object-fit: cover; }
+.photos .del { all: unset; cursor: pointer; position: absolute; top: 6px; right: 6px; min-width: 32px; height: 32px; padding: 0 6px; border-radius: 16px; display: grid; place-items: center; background: var(--glass); color: #fff; font-size: 13px; font-weight: 600; }
+.photos .del.armed { background: var(--danger); }
+.photos .del svg { width: 16px; height: 16px; }
+.pending { position: absolute; left: 6px; bottom: 6px; font-size: 11px; padding: 2px 6px; border-radius: 8px; background: var(--glass); color: #fff; }
+.hlist { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.hlist li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.hlist small { color: var(--muted); }
 input[type=file] { display: none; }
 @media (prefers-reduced-motion: reduce) { .card.bump .count { animation: none; } .chev { transition: none; } }
 </style>
@@ -127,7 +167,7 @@ input[type=file] { display: none; }
       <h1>Motorworld Spotting<small>SAISONABSCHLUSS · BÖBLINGEN</small></h1>
       <div class="score">
         <div><b id="sumTotal">0</b><span>Sichtungen</span></div>
-        <div><b id="sumModels">0</b><span id="sumOf">Modelle</span></div>
+        <div><b id="sumModels">0</b><span>Modelle</span></div>
       </div>
     </div>
     <input id="q" class="search" type="search" placeholder="Modell suchen, z. B. Pista, GT3, M3" autocomplete="off" aria-label="Modell suchen">
@@ -154,6 +194,11 @@ input[type=file] { display: none; }
     </div>
   </form>
 
+  <details class="group hiddenbox" id="hiddenBox" hidden>
+    <summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><span class="gname">Entfernte Autos</span><span class="gstat"><b id="hiddenCount">0</b></span></summary>
+    <ul class="hlist" id="hiddenList"></ul>
+  </details>
+
   <div class="foot">
     <span id="syncState">Zähler werden auf diesem Gerät gespeichert.</span>
     <button class="btn ghost" id="resetBtn" type="button">Alle Zähler auf 0</button>
@@ -161,7 +206,11 @@ input[type=file] { display: none; }
 </div>
 
 <div class="toast" id="toast" hidden><span id="toastText"></span><button id="undoBtn" type="button">Rückgängig</button></div>
-<input type="file" id="photoInput" accept="image/*">
+<input type="file" id="photoInput" accept="image/*" multiple>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Auto-Details">
+  <div class="panel" id="sheetBody"></div>
+</div>
 
 <script>
 (() => {
@@ -307,29 +356,152 @@ const ICON = {
   chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
 };
 
+ICON.more = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+ICON.plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg>';
+ICON.close = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+ICON.trash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
+
 const LS_KEY = "motorworld-spotting-v1";
 const brandById = Object.fromEntries(BRANDS.map(b => [b.id, b]));
 const defaultFavs = CARS.filter(c => c[5]).map(c => c[0]);
+const $ = id => document.getElementById(id);
 
-let state = { counts: {}, favs: defaultFavs.slice(), custom: [], photos: {}, open: {}, updatedAt: 0 };
+let state = { counts: {}, favs: defaultFavs.slice(), custom: [], photos: {}, hidden: [], open: {}, updatedAt: 0 };
+function normalize(s) {
+  s = Object.assign({ counts: {}, favs: [], custom: [], photos: {}, hidden: [], open: {}, updatedAt: 0 }, s);
+  // Older versions kept one photo per car as a bare asset id.
+  for (const k of Object.keys(s.photos)) {
+    const v = s.photos[k];
+    s.photos[k] = (Array.isArray(v) ? v : [v]).filter(Boolean).map(r => (r.startsWith("a:") || r.startsWith("l:")) ? r : "a:" + r);
+    if (!s.photos[k].length) delete s.photos[k];
+  }
+  return s;
+}
 try {
   const saved = JSON.parse(localStorage.getItem(LS_KEY) || "null");
-  if (saved && typeof saved === "object") state = Object.assign(state, saved);
+  if (saved && typeof saved === "object") state = normalize(Object.assign(state, saved));
 } catch (e) {}
 
-let db = null, userDoc = null, assets = null;
+let userDoc = null, assets = null;
 
 function allCars() {
   const base = CARS.map(([id, brand, name, sub, body]) => ({ id, brand, name, sub, body }));
   return base.concat((state.custom || []).map(c => Object.assign({ sub: "Eigener Eintrag" }, c)));
 }
+function visibleCars() { return allCars().filter(c => !state.hidden.includes(c.id)); }
+function carById(id) { return allCars().find(c => c.id === id); }
 function esc(s) { return String(s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]); }
 
+// ---------- photos: uploaded to the artifact when possible, kept on the phone (IndexedDB) otherwise ----------
+let idbP = null;
+function idb() {
+  if (!idbP) idbP = new Promise((res, rej) => {
+    const r = indexedDB.open("motorworld-photos", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("p");
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  return idbP;
+}
+async function idbDo(mode, fn) {
+  const d = await idb();
+  return new Promise((res, rej) => {
+    const tx = d.transaction("p", mode);
+    const req = fn(tx.objectStore("p"));
+    tx.oncomplete = () => res(req && req.result);
+    tx.onerror = () => rej(tx.error);
+  });
+}
+const localUrls = {};
+async function localUrl(key) {
+  if (localUrls[key]) return localUrls[key];
+  const blob = await idbDo("readonly", s => s.get(key));
+  if (!blob) return "";
+  return (localUrls[key] = URL.createObjectURL(blob));
+}
+function photoImg(ref, cls) {
+  if (ref.startsWith("a:")) return `<img class="${cls || ""}" src="/_blob/${esc(ref.slice(2))}" alt="" loading="lazy">`;
+  return `<img class="${cls || ""}" data-local="${esc(ref.slice(2))}" alt="">`;
+}
+function hydrateLocal(root) {
+  root.querySelectorAll("img[data-local]").forEach(async img => {
+    try { const u = await localUrl(img.dataset.local); if (u) img.src = u; } catch (e) {}
+  });
+}
+
+function shrink(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 1400 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => b ? resolve(b) : reject(new Error("encode")), "image/jpeg", 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("load")); };
+    img.src = url;
+  });
+}
+async function storePhoto(blob) {
+  if (assets) {
+    try { const r = await assets.upload(blob, { type: "image/jpeg" }); return { ref: "a:" + r.id, online: true }; } catch (e) {}
+  }
+  const key = "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  await idbDo("readwrite", s => s.put(blob, key));
+  return { ref: "l:" + key, online: false };
+}
+async function addPhotos(id, files) {
+  const list = [...files].filter(f => f && (f.type || "").startsWith("image/") || /\.(heic|heif|jpe?g|png|webp)$/i.test(f.name || ""));
+  if (!list.length) return;
+  toast(list.length > 1 ? `${list.length} Fotos werden gespeichert …` : "Foto wird gespeichert …");
+  let ok = 0, offline = 0;
+  for (const f of list) {
+    try {
+      const blob = await shrink(f);
+      const { ref, online } = await storePhoto(blob);
+      state.photos[id] = (state.photos[id] || []).concat(ref);
+      ok++; if (!online) offline++;
+    } catch (e) {}
+  }
+  if (!ok) { toast("Das Foto konnte nicht gelesen werden. Versuch ein anderes Bild."); return; }
+  persist();
+  updateCard(id);
+  if (sheetId === id) renderSheet();
+  toast(offline ? `${ok} Foto${ok > 1 ? "s" : ""} auf dem Handy gespeichert, Upload folgt bei Netz` : `${ok} Foto${ok > 1 ? "s" : ""} gespeichert`);
+}
+let syncingLocal = false;
+async function uploadLocalPhotos() {
+  if (!assets || syncingLocal) return;
+  syncingLocal = true;
+  let changed = false;
+  try {
+    for (const [id, refs] of Object.entries(state.photos)) {
+      for (let i = 0; i < refs.length; i++) {
+        if (!refs[i].startsWith("l:")) continue;
+        const key = refs[i].slice(2);
+        try {
+          const blob = await idbDo("readonly", s => s.get(key));
+          if (!blob) continue;
+          const r = await assets.upload(blob, { type: "image/jpeg" });
+          refs[i] = "a:" + r.id;
+          changed = true;
+          idbDo("readwrite", s => s.delete(key)).catch(() => {});
+        } catch (e) { syncingLocal = false; if (changed) { persist(); render(); } return; }
+      }
+    }
+  } finally { syncingLocal = false; }
+  if (changed) { persist(); render(); if (sheetId) renderSheet(); }
+}
+
+// ---------- rendering ----------
 function carSvg(car) {
   const b = BODIES[car.body] || BODIES.coupe;
   const col = brandById[car.brand]?.color || "#888";
   const [w1, w2] = WHEEL_X[car.body] || WHEEL_X.coupe;
-  const gid = "g-" + car.id;
+  const gid = "g-" + car.id + "-" + Math.random().toString(36).slice(2, 6);
   const wheel = x => `<circle cx="${x}" cy="60" r="12.5" fill="#111"/><circle cx="${x}" cy="60" r="6.5" fill="#9aa0a4"/><circle cx="${x}" cy="60" r="2" fill="#111"/>`;
   return `<svg viewBox="0 0 200 80" aria-hidden="true">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="1"/><stop offset="1" stop-color="${col}" stop-opacity=".72"/></linearGradient></defs>
@@ -340,22 +512,26 @@ function carSvg(car) {
     ${wheel(w1)}${wheel(w2)}
   </svg>`;
 }
+function coverHtml(car) {
+  const refs = state.photos[car.id] || [];
+  return refs.length ? photoImg(refs[refs.length - 1]) : carSvg(car);
+}
 
 function cardHtml(car) {
   const n = state.counts[car.id] || 0;
   const fav = state.favs.includes(car.id);
   const col = brandById[car.brand]?.color || "#888";
-  const photo = state.photos[car.id];
-  const pic = photo ? `<img src="/_blob/${esc(photo)}" alt="" loading="lazy">` : carSvg(car);
+  const pics = (state.photos[car.id] || []).length;
   return `<div class="card${n ? " seen" : ""}" data-id="${esc(car.id)}" style="--brand:${col}">
     <button class="tap" type="button" data-act="inc" aria-label="${esc(car.name)} gesehen, jetzt ${n}">
-      <div class="pic">${pic}<span class="count">${n}</span></div>
+      <div class="pic">${coverHtml(car)}<span class="count">${n}</span>${pics ? `<span class="pics">${ICON.cam}${pics}</span>` : ""}</div>
       <div class="meta"><div class="mname">${esc(car.name)}</div>${car.sub ? `<div class="msub">${esc(car.sub)}</div>` : ""}</div>
     </button>
     <div class="tools">
       <button class="ib" type="button" data-act="dec" aria-label="Eins abziehen"${n ? "" : " disabled"}>${ICON.minus}</button>
-      <button class="ib" type="button" data-act="photo" aria-label="Foto hinzufügen"${assets ? "" : " hidden"}>${ICON.cam}</button>
+      <button class="ib" type="button" data-act="photo" aria-label="Foto hinzufügen">${ICON.cam}</button>
       <button class="ib${fav ? " on" : ""}" type="button" data-act="fav" aria-label="${fav ? "Aus Favoriten entfernen" : "Zu Favoriten"}">${fav ? ICON.starOn : ICON.star}</button>
+      <button class="ib" type="button" data-act="open" aria-label="Details, Fotos und Entfernen">${ICON.more}</button>
     </div>
   </div>`;
 }
@@ -363,7 +539,7 @@ function cardHtml(car) {
 function groupHtml(key, title, cars, opts) {
   const seenModels = cars.filter(c => state.counts[c.id]).length;
   const total = cars.reduce((s, c) => s + (state.counts[c.id] || 0), 0);
-  const isOpen = document.getElementById("q").value.trim() ? true : (state.open[key] ?? opts.defaultOpen);
+  const isOpen = $("q").value.trim() ? true : (state.open[key] ?? opts.defaultOpen);
   return `<details class="group${opts.cls ? " " + opts.cls : ""}" data-key="${key}" style="--brand:${opts.color || "var(--line)"}"${isOpen ? " open" : ""}>
     <summary>${ICON.chev}${opts.cls === "fav" ? "" : '<span class="dot"></span>'}<span class="gname">${esc(title)}</span>
       <span class="gstat"><b>${seenModels}</b>/${cars.length} · <b>${total}</b>×</span></summary>
@@ -372,50 +548,127 @@ function groupHtml(key, title, cars, opts) {
   </details>`;
 }
 
+function updateSummary() {
+  const cars = visibleCars();
+  $("sumTotal").textContent = cars.reduce((s, c) => s + (state.counts[c.id] || 0), 0);
+  $("sumModels").innerHTML = cars.filter(c => state.counts[c.id]).length + "<small>/" + cars.length + "</small>";
+}
+
 function render() {
-  const q = document.getElementById("q").value.trim().toLowerCase();
-  const cars = allCars();
+  const q = $("q").value.trim().toLowerCase();
+  const cars = visibleCars();
   const match = c => !q || (c.name + " " + c.sub + " " + (brandById[c.brand]?.name || "")).toLowerCase().includes(q);
   const favCars = state.favs.map(id => cars.find(c => c.id === id)).filter(Boolean).filter(match);
   let html = groupHtml("fav", "Favoriten · Die großen Ziele", favCars, {
     cls: "fav", defaultOpen: true,
-    hint: q ? "" : "Mit dem Stern bei jedem Auto legst du fest, was hier oben steht.",
+    hint: q ? "" : "Tipp aufs Bild zählt +1. Stern = Favorit, Kamera = Foto, ⋯ = Fotos ansehen oder Auto entfernen.",
     empty: q ? "Kein Favorit passt zur Suche." : "Noch keine Favoriten. Tippe bei einem Auto auf den Stern.",
   });
   for (const b of BRANDS) {
     const list = cars.filter(c => c.brand === b.id && match(c));
     if (q && !list.length) continue;
-    html += groupHtml(b.id, b.name, list, { color: b.color, defaultOpen: true });
+    html += groupHtml(b.id, b.name, list, { color: b.color, defaultOpen: true, empty: "Alle Autos dieser Marke sind entfernt." });
   }
-  document.getElementById("list").innerHTML = html;
-  const all = cars;
-  document.getElementById("sumTotal").textContent = all.reduce((s, c) => s + (state.counts[c.id] || 0), 0);
-  document.getElementById("sumModels").textContent = all.filter(c => state.counts[c.id]).length;
-  document.getElementById("sumOf").textContent = "von " + all.length + " Modellen";
+  $("list").innerHTML = html;
+  hydrateLocal($("list"));
+  updateSummary();
+  renderHidden();
+}
+
+function renderHidden() {
+  const hidden = state.hidden.map(carById).filter(Boolean);
+  const box = $("hiddenBox");
+  box.hidden = !hidden.length;
+  $("hiddenCount").textContent = hidden.length;
+  $("hiddenList").innerHTML = hidden.map(c => `<li><span>${esc(c.name)} <small>${esc(brandById[c.brand]?.name || "")}</small></span>
+    <button class="btn ghost sm" type="button" data-restore="${esc(c.id)}">Zurückholen</button></li>`).join("");
 }
 
 function updateCard(id) {
-  // Update every card for this car (it can appear in Favoriten and its brand) without a full re-render.
-  const car = allCars().find(c => c.id === id);
+  // A car can appear twice (Favoriten and its brand), so refresh every copy without a full re-render.
+  const car = carById(id);
   document.querySelectorAll(`.card[data-id="${CSS.escape(id)}"]`).forEach(el => {
     const tmp = document.createElement("div");
     tmp.innerHTML = cardHtml(car);
     const fresh = tmp.firstElementChild;
     el.replaceWith(fresh);
     fresh.classList.add("bump");
+    hydrateLocal(fresh);
   });
-  // Refresh headline numbers and group stats.
-  const cars = allCars();
-  document.getElementById("sumTotal").textContent = cars.reduce((s, c) => s + (state.counts[c.id] || 0), 0);
-  document.getElementById("sumModels").textContent = cars.filter(c => state.counts[c.id]).length;
-  document.querySelectorAll("details.group").forEach(d => {
+  updateSummary();
+  $("list").querySelectorAll("details.group").forEach(d => {
     const ids = [...d.querySelectorAll(".card")].map(c => c.dataset.id);
-    const seen = ids.filter(i => state.counts[i]).length;
-    const tot = ids.reduce((s, i) => s + (state.counts[i] || 0), 0);
     const g = d.querySelector(".gstat");
-    if (g) g.innerHTML = `<b>${seen}</b>/${ids.length} · <b>${tot}</b>×`;
+    if (g) g.innerHTML = `<b>${ids.filter(i => state.counts[i]).length}</b>/${ids.length} · <b>${ids.reduce((s, i) => s + (state.counts[i] || 0), 0)}</b>×`;
   });
 }
+
+// ---------- detail sheet ----------
+let sheetId = null, armed = null, armTimer = null;
+function arm(key) {
+  armed = key; clearTimeout(armTimer);
+  armTimer = setTimeout(() => { armed = null; if (sheetId) renderSheet(); }, 4000);
+}
+function openSheet(id) { sheetId = id; armed = null; renderSheet(); $("sheet").hidden = false; document.body.classList.add("locked"); }
+function closeSheet() { sheetId = null; $("sheet").hidden = true; document.body.classList.remove("locked"); }
+function renderSheet() {
+  const car = carById(sheetId);
+  if (!car) return closeSheet();
+  const n = state.counts[car.id] || 0;
+  const fav = state.favs.includes(car.id);
+  const refs = state.photos[car.id] || [];
+  const col = brandById[car.brand]?.color || "#888";
+  $("sheetBody").innerHTML = `
+    <div class="shead" style="--brand:${col}">
+      <div><div class="sbrand"><span class="dot"></span>${esc(brandById[car.brand]?.name || "")}</div><h3>${esc(car.name)}</h3>${car.sub ? `<div class="msub">${esc(car.sub)}</div>` : ""}</div>
+      <button class="ib" type="button" data-s="close" aria-label="Schließen">${ICON.close}</button>
+    </div>
+    <div class="hero">${coverHtml(car)}</div>
+    <div class="counter">
+      <button class="round" type="button" data-s="dec" aria-label="Eins abziehen"${n ? "" : " disabled"}>${ICON.minus}</button>
+      <div><b>${n}</b><span>× gesehen</span></div>
+      <button class="round plus" type="button" data-s="inc" aria-label="Eins dazu">${ICON.plus}</button>
+    </div>
+    <div class="srow">
+      <button class="btn" type="button" data-s="photo">${ICON.cam} Fotos hinzufügen</button>
+      <button class="btn ghost" type="button" data-s="fav">${fav ? ICON.starOn + " Favorit" : ICON.star + " Zu Favoriten"}</button>
+    </div>
+    <h4>Deine Fotos <span>${refs.length}</span></h4>
+    ${refs.length ? `<div class="photos">${refs.slice().reverse().map(r => `
+      <figure>${photoImg(r)}${r.startsWith("l:") ? '<span class="pending">Nur auf dem Handy</span>' : ""}
+        <button class="del${armed === "del:" + r ? " armed" : ""}" type="button" data-s="del" data-ref="${esc(r)}" aria-label="Foto löschen">${armed === "del:" + r ? "Löschen?" : ICON.trash}</button></figure>`).join("")}</div>`
+      : `<p class="empty">Noch keine Fotos. Mach ein Bild mit deiner Kamera und füge es hier hinzu. Du kannst mehrere auf einmal auswählen.</p>`}
+    <button class="btn danger" type="button" data-s="remove">${ICON.trash} ${armed === "remove" ? "Wirklich entfernen? Nochmal tippen" : "Auto aus der Liste entfernen"}</button>`;
+  hydrateLocal($("sheetBody"));
+}
+$("sheet").addEventListener("click", e => {
+  if (e.target.id === "sheet") return closeSheet();
+  const b = e.target.closest("[data-s]");
+  if (!b || !sheetId) return;
+  const id = sheetId, car = carById(id), prev = state.counts[id] || 0;
+  switch (b.dataset.s) {
+    case "close": closeSheet(); break;
+    case "inc": setCount(id, prev + 1); renderSheet(); break;
+    case "dec": if (prev) { setCount(id, prev - 1); renderSheet(); } break;
+    case "photo": pickPhotos(id); break;
+    case "fav": toggleFav(id); renderSheet(); break;
+    case "del": {
+      const ref = b.dataset.ref;
+      if (armed !== "del:" + ref) { arm("del:" + ref); renderSheet(); break; }
+      armed = null;
+      state.photos[id] = (state.photos[id] || []).filter(r => r !== ref);
+      if (!state.photos[id].length) delete state.photos[id];
+      if (ref.startsWith("l:")) idbDo("readwrite", s => s.delete(ref.slice(2))).catch(() => {});
+      else if (assets) assets.delete(ref.slice(2)).catch(() => {});
+      persist(); updateCard(id); renderSheet(); toast("Foto gelöscht");
+      break;
+    }
+    case "remove":
+      if (armed !== "remove") { arm("remove"); renderSheet(); break; }
+      closeSheet(); removeCar(id); break;
+  }
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetId) closeSheet(); });
 
 // ---------- persistence: this device first, then the account (when available) ----------
 let saveTimer = null, writing = false, dirty = false;
@@ -440,51 +693,45 @@ async function pushRemote() {
     if (dirty) { clearTimeout(saveTimer); saveTimer = setTimeout(pushRemote, 4000); }
   }
 }
-function setSync(t) { document.getElementById("syncState").textContent = t; }
-window.addEventListener("online", () => { dirty = true; pushRemote(); });
+function setSync(t) { $("syncState").textContent = t; }
+window.addEventListener("online", () => { dirty = true; pushRemote(); uploadLocalPhotos(); });
 
 async function connect() {
   if (!window.claude?.use) return;
   try {
     const [dbNs, userNs] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
-    if (dbNs && userNs) {
-      const uid = await userNs.id();
-      if (uid) {
-        db = dbNs;
-        userDoc = db.doc("data/users/" + uid + "/spotting/state");
-        const snap = await userDoc.get();
-        const remote = snap.exists ? snap.data() : null;
-        if (remote && (remote.updatedAt || 0) > (state.updatedAt || 0)) {
-          state = Object.assign({ counts: {}, favs: [], custom: [], photos: {}, open: {} }, remote);
-          try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
-          render();
-        } else if (state.updatedAt) {
-          dirty = true; pushRemote();
-        }
-        setSync("Gespeichert in deinem Konto und auf diesem Gerät.");
+    const uid = dbNs && userNs ? await userNs.id() : null;
+    if (uid) {
+      userDoc = dbNs.doc("data/users/" + uid + "/spotting/state");
+      const snap = await userDoc.get();
+      const remote = snap.exists ? snap.data() : null;
+      if (remote && (remote.updatedAt || 0) > (state.updatedAt || 0)) {
+        state = normalize(remote);
+        try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+        render();
+      } else if (state.updatedAt) {
+        dirty = true; pushRemote();
       }
+      setSync("Gespeichert in deinem Konto und auf diesem Gerät.");
     }
   } catch (e) {}
-  try {
-    assets = await window.claude.use("assets");
-    if (assets) document.querySelectorAll('[data-act="photo"]').forEach(b => b.hidden = false);
-  } catch (e) {}
+  try { assets = await window.claude.use("assets"); } catch (e) {}
+  uploadLocalPhotos();
 }
 
-// ---------- interactions ----------
+// ---------- actions ----------
 let lastAction = null, toastTimer = null;
 function toast(text, undo) {
   lastAction = undo || null;
-  document.getElementById("toastText").textContent = text;
-  document.getElementById("undoBtn").hidden = !undo;
-  const t = document.getElementById("toast");
-  t.hidden = false;
+  $("toastText").textContent = text;
+  $("undoBtn").hidden = !undo;
+  $("toast").hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.hidden = true; lastAction = null; }, 3500);
+  toastTimer = setTimeout(() => { $("toast").hidden = true; lastAction = null; }, 4000);
 }
-document.getElementById("undoBtn").addEventListener("click", () => {
+$("undoBtn").addEventListener("click", () => {
   if (lastAction) { lastAction(); lastAction = null; }
-  document.getElementById("toast").hidden = true;
+  $("toast").hidden = true;
 });
 
 function setCount(id, n) {
@@ -492,94 +739,86 @@ function setCount(id, n) {
   persist();
   updateCard(id);
 }
+function toggleFav(id) {
+  const car = carById(id), was = state.favs.includes(id);
+  state.favs = was ? state.favs.filter(f => f !== id) : state.favs.concat(id);
+  persist(); render();
+  toast(was ? `${car.name} aus Favoriten entfernt` : `${car.name} ist jetzt Favorit`);
+}
+function removeCar(id) {
+  const car = carById(id);
+  const wasFav = state.favs.includes(id);
+  state.hidden = state.hidden.filter(h => h !== id).concat(id);
+  state.favs = state.favs.filter(f => f !== id);
+  persist(); render();
+  toast(`${car.name} entfernt`, () => {
+    state.hidden = state.hidden.filter(h => h !== id);
+    if (wasFav) state.favs = state.favs.concat(id);
+    persist(); render();
+  });
+}
 
 let photoFor = null;
-document.getElementById("list").addEventListener("click", e => {
+function pickPhotos(id) { photoFor = id; $("photoInput").click(); }
+$("photoInput").addEventListener("change", e => {
+  const files = e.target.files ? [...e.target.files] : [];
+  e.target.value = "";
+  if (photoFor && files.length) addPhotos(photoFor, files);
+});
+
+$("list").addEventListener("click", e => {
   const btn = e.target.closest("[data-act]");
   if (!btn) return;
   const id = btn.closest(".card").dataset.id;
-  const car = allCars().find(c => c.id === id);
+  const car = carById(id);
   const prev = state.counts[id] || 0;
-  const act = btn.dataset.act;
-  if (act === "inc") {
-    setCount(id, prev + 1);
-    try { navigator.vibrate && navigator.vibrate(18); } catch (err) {}
-    toast(`${car.name}: ${prev + 1}× gesehen`, () => setCount(id, prev));
-  } else if (act === "dec" && prev > 0) {
-    setCount(id, prev - 1);
-    toast(`${car.name}: ${prev - 1}×`, () => setCount(id, prev));
-  } else if (act === "fav") {
-    const was = state.favs.includes(id);
-    state.favs = was ? state.favs.filter(f => f !== id) : state.favs.concat(id);
-    persist();
-    render();
-    toast(was ? `${car.name} aus Favoriten entfernt` : `${car.name} ist jetzt Favorit`);
-  } else if (act === "photo") {
-    photoFor = id;
-    document.getElementById("photoInput").click();
+  switch (btn.dataset.act) {
+    case "inc":
+      setCount(id, prev + 1);
+      try { navigator.vibrate && navigator.vibrate(18); } catch (err) {}
+      toast(`${car.name}: ${prev + 1}× gesehen`, () => setCount(id, prev));
+      break;
+    case "dec":
+      if (prev) { setCount(id, prev - 1); toast(`${car.name}: ${prev - 1}×`, () => setCount(id, prev)); }
+      break;
+    case "fav": toggleFav(id); break;
+    case "photo": pickPhotos(id); break;
+    case "open": openSheet(id); break;
   }
 });
 
-document.getElementById("list").addEventListener("toggle", e => {
+$("hiddenList").addEventListener("click", e => {
+  const b = e.target.closest("[data-restore]");
+  if (!b) return;
+  state.hidden = state.hidden.filter(h => h !== b.dataset.restore);
+  persist(); render();
+  toast(`${carById(b.dataset.restore).name} ist wieder in der Liste`);
+});
+
+$("list").addEventListener("toggle", e => {
   const d = e.target;
-  if (!d.matches || !d.matches("details.group")) return;
-  if (document.getElementById("q").value) return;
+  if (!d.matches || !d.matches("details.group") || $("q").value) return;
   state.open[d.dataset.key] = d.open;
   try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (err) {}
 }, true);
 
-function shrink(file) {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      const scale = Math.min(1, 900 / Math.max(img.width, img.height));
-      const c = document.createElement("canvas");
-      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
-      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-      URL.revokeObjectURL(url);
-      c.toBlob(b => b ? resolve(b) : reject(new Error("encode")), "image/jpeg", 0.82);
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("load")); };
-    img.src = url;
-  });
-}
-document.getElementById("photoInput").addEventListener("change", async e => {
-  const file = e.target.files && e.target.files[0];
-  e.target.value = "";
-  if (!file || !photoFor || !assets) return;
-  const id = photoFor;
-  toast("Foto wird hochgeladen …");
-  try {
-    const blob = await shrink(file);
-    const res = await assets.upload(blob, { type: "image/jpeg" });
-    state.photos[id] = res.id;
-    persist();
-    updateCard(id);
-    toast("Foto gespeichert");
-  } catch (err) {
-    toast("Foto konnte nicht hochgeladen werden. Prüfe das Netz und versuch es nochmal.");
-  }
-});
+$("q").addEventListener("input", render);
 
-document.getElementById("q").addEventListener("input", render);
-
-const addBrand = document.getElementById("addBrand");
-addBrand.innerHTML = BRANDS.map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join("");
-document.getElementById("addForm").addEventListener("submit", e => {
+$("addBrand").innerHTML = BRANDS.map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join("");
+$("addForm").addEventListener("submit", e => {
   e.preventDefault();
-  const name = document.getElementById("addName").value.trim();
+  const name = $("addName").value.trim();
   if (!name) return;
-  const car = { id: "c-" + Date.now().toString(36), brand: addBrand.value, name, body: document.getElementById("addBody").value };
+  const car = { id: "c-" + Date.now().toString(36), brand: $("addBrand").value, name, body: $("addBody").value };
   state.custom = (state.custom || []).concat(car);
   persist();
-  document.getElementById("addName").value = "";
+  $("addName").value = "";
   render();
   toast(`${name} hinzugefügt`);
 });
 
 let resetArmed = false, resetTimer = null;
-document.getElementById("resetBtn").addEventListener("click", e => {
+$("resetBtn").addEventListener("click", e => {
   const btn = e.currentTarget;
   if (!resetArmed) {
     resetArmed = true; btn.textContent = "Wirklich alles auf 0? Nochmal tippen";
